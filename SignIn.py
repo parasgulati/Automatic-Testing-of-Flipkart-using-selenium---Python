@@ -81,7 +81,8 @@ class SignIn(unittest.TestCase):
         error_msg_got = temp.lstrip("<span>")
         error_msg_got = error_msg_got.rstrip("</span>")
         self.assertEqual(error_msg_got, error_msg_actual)
-        
+    
+    
     def test_search_and_view_item(self):
         # valid username and password
         self.driver.get('https://www.flipkart.com/')
@@ -92,9 +93,15 @@ class SignIn(unittest.TestCase):
         #search shoes in search item
         self.driver.find_element_by_class_name('LM6RPg').send_keys('shoes',Keys.ENTER)
         self.driver.implicitly_wait(10)
-        #select first shoes in the list
-        self.driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/div[2]/div[1]/div[2]/div[2]/div/div[1]/div').click()
-        self.driver.implicitly_wait(15)
+
+        #select first shoes in the list and view complete product
+        self.driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/div[2]/div[1]/div[2]/div[2]/div/div[1]/div/a/div[1]/div/div[1]/div').click()
+        self.driver.implicitly_wait(20)
+        allTabs=self.driver.window_handles
+        self.driver.switch_to.window(allTabs[1])
+        page = self.driver.find_element_by_tag_name('html')
+        page.send_keys(Keys.END)
+
         
     @classmethod
     def tearDownClass(cls):
